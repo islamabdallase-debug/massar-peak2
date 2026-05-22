@@ -20,7 +20,7 @@ const SCREEN_TITLES: Record<string, string> = {
 };
 
 export function Header() {
-  const { screen, toggleSidebar, isSidebarOpen, syncStatus } = useAppStore();
+  const { screen, toggleSidebar, isSidebarOpen, syncStatus, theme, toggleTheme } = useAppStore();
   const selectedStudent = useAppStore(selectSelectedStudent);
   const { t } = useTranslation();
 
@@ -152,6 +152,30 @@ export function Header() {
           {syncStatus.pendingOps}
         </span>
       )}
+
+      {/* Theme toggle */}
+      <button
+        onClick={toggleTheme}
+        aria-label={theme === 'dark' ? 'تفعيل الوضع الفاتح' : 'تفعيل الوضع الداكن'}
+        title={theme === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'}
+        style={{
+          background: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: '1.15rem',
+          padding: '8px',
+          borderRadius: '8px',
+          minHeight: '40px',
+          minWidth: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--text-muted, #94a3b8)',
+          transition: 'color 0.2s',
+        }}
+      >
+        {theme === 'dark' ? '☀️' : '🌙'}
+      </button>
 
       <button
         aria-label={syncLabel}

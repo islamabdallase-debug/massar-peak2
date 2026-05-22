@@ -157,7 +157,7 @@ function AppShell() {
 
 // ── Root ─────────────────────────────────────────────────────
 export function App() {
-  const { lang } = useAppStore();
+  const { lang, theme } = useAppStore();
 
   useStudents();
   useAuth();
@@ -166,6 +166,11 @@ export function App() {
     document.documentElement.lang = lang === 'en' ? 'en' : 'ar';
     document.documentElement.dir  = lang === 'en' ? 'ltr' : 'rtl';
   }, [lang]);
+
+  // Apply theme on mount + whenever it changes
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   // Local-only mode vs cloud mode (Supabase)
   const supabaseConfigured = !!(

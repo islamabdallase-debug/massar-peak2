@@ -26,6 +26,7 @@ function makeToastId() {
 export interface AppStore {
   // ── UI
   lang: Lang;
+  theme: 'dark' | 'light';
   screen: ScreenName;
   isSidebarOpen: boolean;
   toasts: Toast[];
@@ -47,6 +48,8 @@ export interface AppStore {
   // ── Actions: Navigation
   setScreen: (screen: ScreenName) => void;
   setLang: (lang: Lang) => void;
+  setTheme: (theme: 'dark' | 'light') => void;
+  toggleTheme: () => void;
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
 
@@ -84,6 +87,7 @@ export const useAppStore = create<AppStore>()(
       (set) => ({
         // ── Initial state
         lang: 'ar',
+        theme: 'dark',
         screen: 'dashboard',
         isSidebarOpen: true,
         toasts: [],
@@ -110,6 +114,16 @@ export const useAppStore = create<AppStore>()(
           document.documentElement.lang = lang === 'en' ? 'en' : 'ar';
           document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
         },
+        setTheme: (theme) => {
+          set({ theme });
+          document.documentElement.dataset.theme = theme;
+        },
+        toggleTheme: () =>
+          set((s) => {
+            const next = s.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.dataset.theme = next;
+            return { theme: next };
+          }),
         toggleSidebar: () => set((s) => ({ isSidebarOpen: !s.isSidebarOpen })),
         setSidebarOpen: (open) => set({ isSidebarOpen: open }),
 
@@ -179,8 +193,8 @@ export const useAppStore = create<AppStore>()(
       }),
       {
         name: 'massar-app-store',
-        // Only persist lang preference; everything else reloads from DB
-        partialize: (state) => ({ lang: state.lang }),
+        // Persist lang + theme; everything else reloads from DB
+        partialize: (state) => ({ lang: state.lang, theme: state.theme }),
       }
     ),
     { name: 'MassarStore' }

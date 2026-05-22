@@ -21,18 +21,50 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
     <title>مسار | منصة PEAK لتقييم RFT</title>
     <style>
+      /* ── Theme variables ── */
+      :root,
+      [data-theme="dark"] {
+        --bg:         #0a0f1a;
+        --bg-card:    #1e293b;
+        --bg-hover:   #263347;
+        --border:     #1e293b;
+        --text:       #f1f5f9;
+        --text-muted: #94a3b8;
+        --blue:       #3b82f6;
+        --blue-hover: #2563eb;
+        --green:      #22c55e;
+        --amber:      #f59e0b;
+        --red:        #ef4444;
+        --splash-bg:  #0a0f1a;
+      }
+      [data-theme="light"] {
+        --bg:         #f8fafc;
+        --bg-card:    #ffffff;
+        --bg-hover:   #f1f5f9;
+        --border:     #e2e8f0;
+        --text:       #0f172a;
+        --text-muted: #64748b;
+        --blue:       #2563eb;
+        --blue-hover: #1d4ed8;
+        --green:      #16a34a;
+        --amber:      #d97706;
+        --red:        #dc2626;
+        --splash-bg:  #f8fafc;
+      }
+
       html, body {
         margin: 0; padding: 0;
-        background: #0a0f1a; color: #f1f5f9;
+        background: var(--bg, #0a0f1a); color: var(--text, #f1f5f9);
         font-family: 'Cairo', sans-serif;
         direction: rtl; -webkit-text-size-adjust: 100%;
+        transition: background 0.25s ease, color 0.25s ease;
       }
       #root { min-height: 100vh; }
       #splash {
         position: fixed; inset: 0;
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
-        background: #0a0f1a; gap: 16px; z-index: 9999; transition: opacity 0.3s;
+        background: var(--splash-bg, #0a0f1a); gap: 16px; z-index: 9999; transition: opacity 0.3s;
       }
       #splash.hidden { opacity: 0; pointer-events: none; }
       #splash-logo {
@@ -40,7 +72,7 @@
         color: #f9a825; font-family: 'Cairo', sans-serif;
         animation: pulse 1.4s ease-in-out infinite;
       }
-      #splash-sub { font-size: 0.85rem; color: #64748b; font-family: 'Cairo', sans-serif; }
+      #splash-sub { font-size: 0.85rem; color: var(--text-muted, #64748b); font-family: 'Cairo', sans-serif; }
       @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
   </head>
