@@ -3,7 +3,7 @@
 //  v5.0.0 — Cache + IndexedDB sync strategy
 // ============================================================
 
-const CACHE_NAME = 'massar-v6';
+const CACHE_NAME = 'massar-v7';
 const STATIC_URLS = [
   '/',
   '/index.html',
