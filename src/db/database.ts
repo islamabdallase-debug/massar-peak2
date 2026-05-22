@@ -5,7 +5,7 @@
 // ============================================================
 
 import type { Student, AssessSession, PlanItem } from '@/types';
-import { logDBError, withRetry } from '@/components/ui/ErrorBoundary';
+import { logDBError, withRetry } from '@/utils/errorUtils';
 
 const DB_NAME   = 'peakDB';
 const DB_VERSION = 5;
@@ -581,3 +581,4 @@ export async function checkStorageQuota(): Promise<StorageQuotaResult> {
     return unavailable;
   }
 }
+           

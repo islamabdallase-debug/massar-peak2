@@ -6,60 +6,21 @@
 
 import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 
-// ── Types ────────────────────────────────────────────────────
-interface ErrorLog {
-  id: string;
-  ts: number;
-  type: 'render' | 'async' | 'unhandled' | 'db' | 'network';
-  message: string;
-  stack?: string;
-  context?: string;
-}
+// ── Import shared utilities (avoids circular deps with database.ts) ──
+import {
+  errorLogs,
+  logError,
+  getErrorLogs,
+  clearErrorLogs,
+  logDBError,
+  logNetworkError,
+  withRetry,
+  type ErrorLog,
+} from '@/utils/errorUtils';
 
-// ── In-memory error log (diagnostic utility) ─────────────────
-const errorLogs: ErrorLog[] = [];
-
-export function getErrorLogs(): ErrorLog[] {
-  return [...errorLogs];
-}
-
-export function clearErrorLogs(): void {
-  errorLogs.length = 0;
-}
-
-function logError(
-  type: ErrorLog['type'],
-  message: string,
-  stack?: string,
-  context?: string
-): void {
-  const entry: ErrorLog = {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-    ts: Date.now(),
-    type,
-    message: message.slice(0, 500),
-    stack: stack?.slice(0, 1000),
-    context,
-  };
-  errorLogs.push(entry);
-  // Keep max 100 entries
-  if (errorLogs.length > 100) errorLogs.shift();
-
-  // Console output in dev
-  if (import.meta.env.DEV) {
-    console.error(`[مسار Error][${type}]`, message, stack ?? '');
-  }
-
-  // Persist latest error to sessionStorage for diagnostics
-  try {
-    sessionStorage.setItem(
-      'massar_last_error',
-      JSON.stringify({ type, message, ts: entry.ts })
-    );
-  } catch {
-    // sessionStorage not available — ignore
-  }
-}
+// Re-export for backward compatibility (files that import from ErrorBoundary)
+export { getErrorLogs, clearErrorLogs, logDBError, logNetworkError, withRetry };
+export type { ErrorLog };
 
 // ── Install global unhandled error listeners ─────────────────
 export function installGlobalErrorHandlers(): void {
@@ -79,39 +40,6 @@ export function installGlobalErrorHandlers(): void {
   window.addEventListener('error', (e) => {
     logError('unhandled', e.message ?? 'Unknown error', e.error?.stack, e.filename);
   });
-}
-
-// ── DB Error helper ──────────────────────────────────────────
-export function logDBError(operation: string, error: unknown): void {
-  const msg = error instanceof Error ? error.message : String(error);
-  logError('db', `DB[${operation}]: ${msg}`);
-}
-
-// ── Network Error helper ─────────────────────────────────────
-export function logNetworkError(operation: string, error: unknown): void {
-  const msg = error instanceof Error ? error.message : String(error);
-  logError('network', `Net[${operation}]: ${msg}`);
-}
-
-// ── Async retry utility ──────────────────────────────────────
-export async function withRetry<T>(
-  fn: () => Promise<T>,
-  { retries = 2, delayMs = 300, context = '' }: { retries?: number; delayMs?: number; context?: string } = {}
-): Promise<T> {
-  let lastError: unknown;
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    try {
-      return await fn();
-    } catch (err) {
-      lastError = err;
-      if (attempt < retries) {
-        await new Promise((r) => setTimeout(r, delayMs * (attempt + 1)));
-      }
-    }
-  }
-  const msg = lastError instanceof Error ? lastError.message : String(lastError);
-  logError('async', `Retry failed[${context}]: ${msg}`);
-  throw lastError;
 }
 
 // ── Fallback UI ──────────────────────────────────────────────
@@ -361,3 +289,4 @@ if (typeof window !== 'undefined') {
   (window as unknown as Record<string, unknown>).__massar_run_diag = runDiagnostics;
   (window as unknown as Record<string, unknown>).__massar_errors   = errorLogs;
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
