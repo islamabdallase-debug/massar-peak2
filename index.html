@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <!-- Content Security Policy: restrict to self + Google Fonts -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; worker-src 'self';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="مسار — منصة تقييم التدريب العلائقي RFT | PEAK Assessment Platform" />
+    <meta name="theme-color" content="#f9a825" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="مسار" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <title>مسار | منصة PEAK لتقييم RFT</title>
+    <style>
+      html, body {
+        margin: 0; padding: 0;
+        background: #0a0f1a; color: #f1f5f9;
+        font-family: 'Cairo', sans-serif;
+        direction: rtl; -webkit-text-size-adjust: 100%;
+      }
+      #root { min-height: 100vh; }
+      #splash {
+        position: fixed; inset: 0;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        background: #0a0f1a; gap: 16px; z-index: 9999; transition: opacity 0.3s;
+      }
+      #splash.hidden { opacity: 0; pointer-events: none; }
+      #splash-logo {
+        font-size: 2.5rem; font-weight: 900;
+        color: #f9a825; font-family: 'Cairo', sans-serif;
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+      #splash-sub { font-size: 0.85rem; color: #64748b; font-family: 'Cairo', sans-serif; }
+      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">انتقل إلى المحتوى الرئيسي</a>
+    <div id="splash" aria-hidden="true">
+      <div id="splash-logo">مسار</div>
+      <div id="splash-sub">منصة تقييم RFT</div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function() {});
+        });
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        var splash = document.getElementById('splash');
+        var observer = new MutationObserver(function() {
+          var root = document.getElementById('root');
+          if (root && root.children.length > 0) {
+            setTimeout(function() {
+              if (splash) splash.classList.add('hidden');
+              setTimeout(function() { if (splash) splash.remove(); }, 350);
+            }, 100);
+            observer.disconnect();
+          }
+        });
+        var root = document.getElementById('root');
+        if (root) observer.observe(root, { childList: true, subtree: false });
+      });
+    </script>
+  </body>
+</html>

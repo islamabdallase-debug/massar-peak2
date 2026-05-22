@@ -1,0 +1,609 @@
+/* ============================================================
+   مسار — Global CSS (React app)
+   Design tokens compatible with massar4.css
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
+/* ─── CSS Variables ──────────────────────────────────────── */
+:root {
+  /* Colors */
+  --bg:           #0a0f1a;
+  --sidebar-bg:   #0f172a;
+  --surface:      #1e293b;
+  --surface-2:    #263247;
+  --border:       #334155;
+  --text:         #f1f5f9;
+  --text-muted:   #94a3b8;
+  --blue:         #3b82f6;
+  --blue-dark:    #2563eb;
+  --gold:         #f9a825;
+  --green:        #22c55e;
+  --red:          #ef4444;
+  --purple:       #8b5cf6;
+  --orange:       #f59e0b;
+
+  /* Spacing */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    14px;
+  --radius-xl:    18px;
+}
+
+/* ─── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  text-align: right;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+/* ─── RTL Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─── Focus visible ──────────────────────────────────────── */
+*:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid var(--gold);
+  box-shadow: 0 0 0 5px rgba(249, 168, 37, 0.25);
+}
+
+/* ─── Animations ──────────────────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Input/select base ──────────────────────────────────── */
+input, textarea, select {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* ─── Mobile sidebar overlay ─────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar-mobile-overlay {
+    display: block !important;
+  }
+}
+
+/* ─── Transition helpers ─────────────────────────────────── */
+.fade-in {
+  animation: fadeIn 0.2s ease both;
+}
+
+.screen-enter {
+  animation: fadeIn 0.22s ease both;
+}
+
+/* ─── Skeleton / shimmer loading ─────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface-2) 50%,
+    var(--surface) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ─── Button active press feedback ───────────────────────── */
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  transform: scale(0.96) !important;
+}
+
+/* ─── Responsive breakpoints ─────────────────────────────── */
+@media (max-width: 640px) {
+  /* Tighter padding on small screens */
+  main[role="main"] {
+    padding: 16px !important;
+  }
+
+  /* Full-width buttons on mobile */
+  .btn-group {
+    flex-direction: column;
+  }
+
+  /* Smaller headings */
+  h2 { font-size: 1.1rem !important; }
+  h3 { font-size: 0.9rem !important; }
+
+  /* Grid collapses to 1 col */
+  .grid-auto {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Even tighter on very small screens */
+  main[role="main"] {
+    padding: 12px !important;
+  }
+}
+
+/* ─── Print styles ───────────────────────────────────────── */
+@media print {
+  nav,
+  header,
+  [role="navigation"],
+  .sidebar-mobile-overlay {
+    display: none !important;
+  }
+  main[role="main"] {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* ─── Utility classes ────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Mobile & Tablet UX Fixes ──────────────────────────── */
+
+/* Prevent double-tap zoom on buttons/links */
+button, a, [role="button"] {
+  touch-action: manipulation;
+}
+
+/* Ensure proper viewport on iOS Safari */
+:root {
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left:   env(safe-area-inset-left,  0px);
+  --safe-right:  env(safe-area-inset-right, 0px);
+}
+
+/* Prevent text selection on tap (UI elements) */
+button, [role="button"], .sidebar-item, nav {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Smooth momentum scrolling on iOS */
+[style*="overflow-y: auto"],
+[style*="overflow-y:auto"],
+[style*="overflowY"],
+.scrollable {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix keyboard overlap: push content above virtual keyboard */
+@supports (height: 100dvh) {
+  body, #root {
+    min-height: 100dvh;
+  }
+}
+
+/* Mobile: full-width buttons in forms */
+@media (max-width: 480px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  textarea,
+  select {
+    font-size: 16px !important; /* Prevent iOS auto-zoom on focus */
+    width: 100%;
+  }
+
+  /* Prevent chart overflow on small screens */
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Stack export cards vertically */
+  [style*="flexDirection: row"] {
+    flex-direction: column !important;
+  }
+}
+
+/* Tablet portrait: 2-column stat grids */
+@media (min-width: 600px) and (max-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Sticky headers should account for safe area */
+header[role="banner"],
+[style*="position: sticky"],
+[style*="position:sticky"] {
+  padding-top: max(8px, var(--safe-top));
+}
+
+/* Bottom action bars account for home indicator on iOS */
+[style*="position: fixed"][style*="bottom"],
+.bottom-bar {
+  padding-bottom: max(8px, var(--safe-bottom));
+}
+
+/* Fix dialog/modal on small screens */
+@media (max-width: 520px) {
+  [role="dialog"] {
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+    overflow-y: auto;
+  }
+}
+
+/* Improve scrollable horizontal factor strip */
+[aria-label="عوامل الوحدة"],
+[aria-label="module factors"] {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+[aria-label="عوامل الوحدة"] > *,
+[aria-label="module factors"] > * {
+  scroll-snap-align: start;
+}
+
+/* Improve table responsiveness */
+@media (max-width: 600px) {
+  .table-responsive {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+}
+
+/* Focus visible — always show on keyboard nav, respect forced-colors */
+:focus-visible {
+  outline: 2px solid var(--blue, #3b82f6);
+  outline-offset: 2px;
+}
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid ButtonText;
+  }
+}
+
+
+/* ============================================================
+   مسار — Operational Polish v5.1
+   Empty states, skeletons, offline, micro-interactions
+   ============================================================ */
+
+/* ─── Offline Banner ─────────────────────────────────────── */
+.offline-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9998;
+  background: #f59e0b;
+  color: #1a1a1a;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-align: center;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  animation: slideDown 0.3s ease;
+}
+.offline-banner.reconnected {
+  background: #22c55e;
+  color: white;
+}
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+/* ─── Empty State ────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  gap: 12px;
+  color: var(--text-muted);
+  animation: fadeIn 0.3s ease;
+}
+.empty-state__icon {
+  font-size: 3.5rem;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+.empty-state__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.empty-state__desc {
+  font-size: 0.85rem;
+  max-width: 320px;
+  line-height: 1.6;
+}
+.empty-state__action {
+  margin-top: 8px;
+}
+
+/* ─── Skeleton Loader ────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface-2) 50%,
+    var(--surface) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}
+.skeleton-text  { height: 14px; margin: 6px 0; }
+.skeleton-title { height: 20px; margin: 8px 0; width: 60%; }
+.skeleton-card  { height: 80px; border-radius: 12px; margin: 8px 0; }
+.skeleton-avatar { width: 40px; height: 40px; border-radius: 50%; }
+
+/* ─── Micro-interactions ─────────────────────────────────── */
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Button press */
+button:active, [role="button"]:active {
+  transform: scale(0.97);
+}
+
+/* Smooth page transitions */
+.screen-enter {
+  animation: fadeIn 0.22s ease;
+}
+
+/* Success flash */
+@keyframes successFlash {
+  0%   { background: rgba(34, 197, 94, 0.15); }
+  100% { background: transparent; }
+}
+.success-flash {
+  animation: successFlash 0.8s ease;
+}
+
+/* ─── Status badges ──────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.badge-green  { background: rgba(34,197,94,0.15);  color: #22c55e; }
+.badge-orange { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.badge-red    { background: rgba(239,68,68,0.15);  color: #ef4444; }
+.badge-blue   { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.badge-gray   { background: rgba(148,163,184,0.1); color: #94a3b8; }
+
+/* ─── Progress bar ───────────────────────────────────────── */
+.progress-bar {
+  height: 6px;
+  background: var(--surface-2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar__fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* ─── Keyboard shortcut hints ────────────────────────────── */
+.kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: var(--text-muted);
+  direction: ltr;
+}
+
+/* ─── Assessment item ────────────────────────────────────── */
+.assess-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 2px solid transparent;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+}
+.assess-item:hover {
+  border-color: var(--border);
+  background: var(--surface-2);
+}
+.assess-item.known {
+  border-color: rgba(34,197,94,0.4);
+  background: rgba(34,197,94,0.05);
+}
+.assess-item.unknown {
+  border-color: rgba(239,68,68,0.3);
+  background: rgba(239,68,68,0.04);
+}
+.assess-item.active {
+  border-color: var(--blue);
+  background: rgba(59,130,246,0.08);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* ─── Floating action button ─────────────────────────────── */
+.fab {
+  position: fixed;
+  bottom: calc(24px + var(--safe-bottom, 0px));
+  left: 24px;
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #1a1a1a;
+  font-size: 1.4rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(249,168,37,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.fab:hover  { transform: scale(1.08); box-shadow: 0 6px 20px rgba(249,168,37,0.5); }
+.fab:active { transform: scale(0.95); }
+
+/* ─── Tooltip ────────────────────────────────────────────── */
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%; transform: translateX(-50%);
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  border: 1px solid var(--border);
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+}
+[data-tooltip]:hover::after { opacity: 1; }
+
+/* ─── Divider ────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+/* ─── Section title ──────────────────────────────────────── */
+.section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+/* ─── Backup status indicator ────────────────────────────── */
+.backup-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--surface);
+  border-radius: 10px;
+  font-size: 0.82rem;
+}
+.backup-status__dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.backup-status.fresh   .backup-status__dot { background: #22c55e; }
+.backup-status.warning .backup-status__dot { background: #f59e0b; animation: pulse-dot 1.5s ease infinite; }
+.backup-status.danger  .backup-status__dot { background: #ef4444; animation: pulse-dot 1s  ease infinite; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ─── Landscape tablet ───────────────────────────────────── */
+@media (min-width: 900px) and (orientation: landscape) {
+  .assess-two-col {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    align-items: start;
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .skeleton { animation: none; background: var(--surface-2); }
+}

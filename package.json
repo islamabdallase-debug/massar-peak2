@@ -1,0 +1,43 @@
+{
+  "name": "massar-react",
+  "private": true,
+  "version": "5.0.0",
+  "type": "module",
+  "scripts": {
+    "dev":        "vite",
+    "build":      "tsc -b && vite build",
+    "preview":    "vite preview",
+    "typecheck":  "tsc --noEmit",
+    "test":       "vitest run",
+    "test:watch": "vitest",
+    "test:ui":    "vitest --ui",
+    "test:cov":   "vitest run --coverage",
+    "test:e2e":   "playwright test",
+    "lint":       "tsc --noEmit"
+  },
+  "dependencies": {
+    "react":                 "^18.3.1",
+    "react-dom":             "^18.3.1",
+    "react-router-dom":      "^6.24.1",
+    "zustand":               "^4.5.4",
+    "@supabase/supabase-js": "^2.44.4",
+    "jspdf":                 "^2.5.1",
+    "html2canvas":           "^1.4.1"
+  },
+  "devDependencies": {
+    "@types/react":                "^18.3.3",
+    "@types/react-dom":            "^18.3.0",
+    "@vitejs/plugin-react":        "^4.3.1",
+    "typescript":                  "^5.5.3",
+    "vite":                        "^5.3.4",
+    "vitest":                      "^2.0.5",
+    "@vitest/ui":                  "^2.0.5",
+    "@vitest/coverage-v8":         "^2.0.5",
+    "jsdom":                       "^24.1.1",
+    "@testing-library/react":      "^16.0.0",
+    "@testing-library/jest-dom":   "^6.4.6",
+    "@testing-library/user-event": "^14.5.2",
+    "fake-indexeddb":              "^6.0.0",
+    "@playwright/test":            "^1.45.3"
+  }
+}
