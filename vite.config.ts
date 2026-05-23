@@ -18,7 +18,6 @@ export default defineConfig({
 
   build: {
     outDir: 'dist',
-    emptyOutDir: false,  // Windows mount: files are locked; hashed names make this safe
     sourcemap: false,
     target: 'es2020',
     chunkSizeWarningLimit: 800,
