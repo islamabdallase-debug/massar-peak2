@@ -3,7 +3,7 @@
 //  v2.0: auto-draft (crash recovery), archive, vacuum
 // ============================================================
 
-import { SessionDB, DraftDB } from '@/db/database';
+import { SessionDB, DraftDB, StudentDB } from '@/db/database';
 import type { SessionDraft } from '@/db/database';
 import type {
   AssessSession,

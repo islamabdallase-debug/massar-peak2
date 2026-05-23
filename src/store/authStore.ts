@@ -5,9 +5,10 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { AuthService } from '@/services/AuthService';
-import type { UserProfile, Center, Subscription, UserRole, ROLE_PERMISSIONS } from '@/types/saas';
+import type { UserProfile, Center, Subscription, UserRole } from '@/types/saas';
+import { ROLE_PERMISSIONS } from '@/types/saas';
 
-type PermKey = keyof typeof import('@/types/saas').ROLE_PERMISSIONS['therapist'];
+type PermKey = keyof (typeof ROLE_PERMISSIONS)['therapist'];
 
 interface AuthUser {
   id: string;
@@ -68,8 +69,6 @@ export const useAuthStore = create<AuthStore>()(
         hasPermission: (perm) => {
           const { profile } = get();
           if (!profile) return false;
-          // Import ROLE_PERMISSIONS at call time to avoid circular dependency
-          const { ROLE_PERMISSIONS } = require('@/types/saas');
           return ROLE_PERMISSIONS[profile.role]?.[perm] ?? false;
         },
 
@@ -98,7 +97,6 @@ export const useAuthStore = create<AuthStore>()(
         getRoleLabel: () => {
           const { profile } = get();
           if (!profile) return '';
-          const { ROLE_PERMISSIONS } = require('@/types/saas');
           return ROLE_PERMISSIONS[profile.role]?.label ?? profile.role;
         },
 
