@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
+  "installCommand": "npm install --force",
   "rewrites": [
     { "source": "/((?!assets|icons|sw.js|manifest.json|favicon.ico).*)", "destination": "/index.html" }
   ],

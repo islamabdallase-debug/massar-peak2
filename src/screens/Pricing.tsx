@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { useAuthStore } from '@/store/authStore';
+import { useAppStore } from '@/store/appStore';
 import { PLANS } from '@/types/saas';
 import { Button } from '@/components/ui/Button';
 import type { SubscriptionPlan } from '@/types/saas';
@@ -126,7 +127,8 @@ function PlanCard({
 }
 
 export function Pricing() {
-  const { subscription, addToast } = useAuthStore((s) => ({ subscription: s.subscription, addToast: useAppStore.getState().addToast }));
+  const subscription = useAuthStore((s) => s.subscription);
+  const addToast     = useAppStore((s) => s.addToast);
 
   function handleSelect(plan: SubscriptionPlan) {
     if (plan === 'enterprise') {
@@ -134,7 +136,7 @@ export function Pricing() {
       return;
     }
     // In real implementation: redirect to payment gateway
-    useAppStore.getState().addToast(`جاري تفعيل خطة ${PLANS[plan].label}...`, 'info');
+    addToast(`جاري تفعيل خطة ${PLANS[plan].label}...`, 'info');
   }
 
   return (
@@ -166,6 +168,3 @@ export function Pricing() {
     </main>
   );
 }
-
-// Helper import
-import { useAppStore } from '@/store/appStore';
